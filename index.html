@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>snake 3d</title>
+	<meta content="text/html;" http-equiv="content-type" charset="utf-8" />
+	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="snake/snake.css" rel="stylesheet" type="text/css"/>
+	<script src="plugins/jquery-1.12.2.min.js"></script>
+	<script src="plugins/three.min.js"></script>
+	<script src="snake/storage.js"></script>
+	<script src="snake/trans.js"></script>
+	<script src="snake/draw.js"></script>
+	<script src="snake/snake.js"></script>
+</head>
+<body>
+	<div class="header">
+		<div id="lang" class="top-right">
+			<label data-lang="idioma"></label>:
+			<span></span>
+		</div>
+		<h1>Snake 3D</h1>
+	</div>
+	<div class="container">
+		<div class="content">
+			<div>
+				<div id="game">
+					<div class="header">
+						<div id="points" class="left">
+							<strong data-lang="puntos"></strong>: <span></span>
+						</div>
+						<div id="score" class="right">
+							<strong data-lang="mejor"></strong>: <span></span>
+						</div>
+					</div>
+					<div class="footer">
+						<ul id="snake">
+							<li id="x"><strong>x:</strong><span>1</span></li>
+							<li id="y"><strong>y:</strong><span>1</span></li>
+							<li id="z"><strong>z:</strong><span>1</span></li>
+						</ul>
+						<div id="mensaje" class="info"></div>
+						<ul id="food">
+							<li id="x"><strong>x:</strong><span>1</span></li>
+							<li id="y"><strong>y:</strong><span>1</span></li>
+							<li id="z"><strong>z:</strong><span>1</span></li>
+						</ul>
+					</div>
+				</div>
+				<div>
+					<p><input id="collide" type="checkbox"><span data-lang="chocar"></span></p>	
+				</div>
+			</div>
+			<div id="help" class="float">
+				<div><strong>p/esc/<span data-lang="espacio"></span></strong>: <span data-lang="pausa"></span></div>
+				<div><strong>i/r/s</strong>: <span data-lang="iniciar"></span></div>
+				<div><strong data-lang="flechas"></strong>: <span data-lang="mover-xy"></span></div>
+				<div><strong>a/z</strong>: <span data-lang="entra/sale"></span></div>
+				<div><strong data-lang="shift+flechas"></strong>: <span data-lang="mover-xz"></span></div>
+				<div><strong data-lang="ctrl+flechas"></strong>: <span data-lang="mover-yz"></span></div>
+			</div>
+		</div>
+	</div>
+	<div class="options">
+	</div>
+	<script>
+		(function(){
+			var $s=$('<select id="selectLang" />');
+			for(var val in idiomas) {
+				$("<option />", {value:val, text:idiomas[val], selected:val==(storage('lang')||'es')}).appendTo($s);
+			}
+			$s.appendTo('#lang>span').on('change',function(){
+				storage('lang',this.value);
+				$.lang();
+			});
+			$('#collide').prop('checked',storage('collide')||false).on('change',function(){
+				storage('collide',$(this).prop('checked')||null);
+			});
+		})();
+	</script>
+</body>
+</html>

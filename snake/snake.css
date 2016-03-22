@@ -1,0 +1,112 @@
+body{
+	margin:0;
+	background:#111;
+	color:#fff;
+	font-family:verdana;
+}
+h1{
+	text-align: center;
+}
+canvas {
+	margin:auto;
+	display:block;
+}
+
+#mensaje.info{ color:#7ff; }
+#mensaje.alert{ color:#f55; }
+
+.header{
+	position: relative;
+}
+.header>h1{
+	margin:0px;
+	padding:10px;
+}
+.header #lang{
+	position: absolute;
+	font-size:12px;
+	margin: 10px;
+	top:0;right:0;
+}
+
+.container{
+	text-align:center;
+	position: relative;
+	margin:auto;
+}
+.container:before,
+.container:after{
+	content:" ";
+	visibility:hidden;
+	display:block;
+	height:0;
+	clear:both;
+}
+
+.container>input{
+	color:#111;
+	background:#111;
+	border: none;
+}
+
+.content .header{
+	position:absolute;
+	width:calc(100% - 40px);
+	top:0;
+}
+.content>div{
+	position: relative;
+	display:inline-block;
+	margin:0 5px;
+}
+#game{
+	position: relative;
+	width:800px;
+	height:600px;
+}
+#help{
+	text-align:left;
+}
+.content>.right{
+	position: relative;
+	float: right;
+}
+.header>.left{
+	float:left;
+}
+.header>.right{
+	float:right;
+}
+.footer{
+	position:absolute;
+	margin:0 20px;
+	width:calc(100% - 40px);
+	color: #fff;
+	font-size: 12px;
+	bottom:0;
+}
+.footer>div{
+	text-align:left;
+}
+.footer>div#mensaje{
+	text-align:center;
+	position:absolute;
+	width: calc(100% - 70px);
+	bottom:0;
+	padding:35px;
+	margin: 0;
+}
+.footer ul{
+	padding:0;
+	text-align:left;
+	width:32px;
+}
+.footer ul>li{
+	display:block;
+}
+.footer ul#snake{
+	float: left;
+}
+.footer ul#food{
+	float: right;
+}
