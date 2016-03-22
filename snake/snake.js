@@ -33,6 +33,8 @@
 			focus_paused=false;
 			snake.toggle();
 		}
+	}).on('click','a#start',function(){
+		if(!snake.dead) snake.toggle();
 	});
 	//acciones de teclado (keyboard)
 	var kb={
@@ -97,7 +99,7 @@
 			$.each(val,function(x,val){
 				$.each(val,function(y,val){
 					$.each(val,function(z,el){
-						if(el) this.taken(x,y,z,el);
+						if(el) matrix.taken(x,y,z,el);
 						// if(el) list.push([x,y,z,el]);
 					});
 				});
@@ -127,7 +129,7 @@
 	};
 	//controlador de comida
 	var food={
-		material:'#0bb.ba',
+		material:'#6b6.ba',
 		rand:function(a,b){
 			return Math.floor((Math.random() * b) + a);
 		},
@@ -143,7 +145,7 @@
 				y=this.rand(1,matrix.max.y);
 				z=this.rand(1,matrix.max.z);
 			}
-			var $span=$('#food>li>span');
+			var $span=$('#food span');
 			$.each([x,y,z],function(i,val){
 				$span[i].textContent=val;
 			})
@@ -175,7 +177,7 @@
 		next:function(){
 			if(this.paused||this.dead) return;
 			var dir=this.dir(),pos=this.pos();
-			var $span=$('#snake>li>span');
+			var $span=$('#snake span');
 			var collide=storage('collide')?1:0;
 			['x','y','z'].forEach(function(i,p){
 				pos[i]=pos[i]+dir[i];
@@ -281,6 +283,7 @@
 		max:5,
 		delay:5,
 		reset:function(){
+			this.score=storage('score')||0;
 			this.set(0);
 		},
 		add:function(){
