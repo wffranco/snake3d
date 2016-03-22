@@ -4,9 +4,9 @@
 
 @media (max-width:410px){
 	.col-xs-9{
-		width:100%;
+		width:100% !important;
 	}
 	.col-xs-offset-15{
-		margin-left:0%;
+		margin-left:0% !important;
 	}
 }
