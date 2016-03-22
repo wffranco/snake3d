@@ -2,9 +2,14 @@
 	//manejo de pantalla
 	var scene = new THREE.Scene();
 	var camera = new THREE.PerspectiveCamera(100,4/3,1,10000);
-	var renderer = new THREE.WebGLRenderer({ antialias:true });
+	var canvas = $('canvas')[0];
+	var renderer = new THREE.WebGLRenderer({canvas:canvas,antialias:true});
 	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize(800,600);
+	renderer.setSize(720,540);
+	$(canvas).attr('style',null).data('renderer',renderer);
+
+	//posicionamos la camara
+	Draw.pos(camera,21,16,-13.5/Draw.depth);
 
 	var focused,focus_paused;
 	$(renderer.domElement).appendTo('.content #game')
@@ -16,21 +21,17 @@
 		delete kb.last.key;
 	}).on('keydown keypress',function(e){
 		if(!focused) kb.check(e);
-	}).on('focus focusout',':input',function(e){
-		if(e.type=='focusout'){
-			if(focused==e.target){
-				focused=null;
-				if(focus_paused){
-					focus_paused=false;
-					snake.toggle();
-				}
-			}
-		}else{
-			focused=e.target;
-			if(!snake.paused){
-				focus_paused=true;
-				snake.toggle();
-			}
+	}).on('focus',':input',function(e){
+		focused=e.target;
+		if(!snake.paused){
+			focus_paused=true;
+			snake.toggle();
+		}
+	}).on('click','canvas',function(e){
+		focused=null;
+		if(focus_paused){
+			focus_paused=false;
+			snake.toggle();
 		}
 	});
 	//acciones de teclado (keyboard)
@@ -79,7 +80,7 @@
 	};
 	//matriz que llevara el control de los cuadros ocupados
 	var matrix={
-		max:{x:40,y:25,z:25},
+		max:{x:40,y:30,z:25},
 		val:{},
 		taken:function(x,y,z,val){
 			if(val===undefined) return (((this.val||{})[x]||{})[y]||{})[z];
@@ -90,15 +91,18 @@
 			return val;
 		},
 		clean:function(){//dejar solo campos ocupados. no se recomienda usarlo en vivo
-			var val=this.val||{},list=[];
+			// var list=[];
+			var val=this.val||{};
+			this.reset();
 			$.each(val,function(x,val){
 				$.each(val,function(y,val){
 					$.each(val,function(z,el){
-						if(el) list.push([x,y,z,el]);
+						if(el) this.taken(x,y,z,el);
+						// if(el) list.push([x,y,z,el]);
 					});
 				});
 			});
-			console.log(list);
+			// console.log(list);
 		},
 		reset:function(){ delete this.val; }
 	};
@@ -280,7 +284,9 @@
 			this.set(0);
 		},
 		add:function(){
-			console.log('eat food');
+			//mejora pendiente: darle mas puntos al jugador si recoge la comida rapido
+			//feature: want to add more points if the player take it fast
+			this.set((this.points||0)+1);
 		},
 		set:function(val){
 			this.points=val||0;
@@ -291,8 +297,6 @@
 		}
 	};
 
-	//posicionamos la camara
-	Draw.pos(camera,21,14.5,-13.5/Draw.depth);
 	//colocamos los muros
 	walls.put();
 	//iniciamos el movimiento de la serpiente
